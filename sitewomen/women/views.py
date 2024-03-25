@@ -1,4 +1,6 @@
 from typing import Any
+from django.core import paginator
+from django.core.paginator import Paginator
 from django.db.models.query import QuerySet
 from django.http import HttpResponse, HttpRequest, HttpResponseNotFound, Http404, HttpResponseRedirect, \
     HttpResponsePermanentRedirect
@@ -29,6 +31,8 @@ class WomenHome(DataMixin, ListView):
     ##### Новые атрибуты для DataMixin в utils.py
     cat_selected = 0
     title_page = 'Главная страница'
+    
+    # paginate_by = 3 # автоматически в шаблон передается page_obj и paginator
     
     def get_queryset(self):
         return Women.published.all().select_related('cat')
@@ -72,20 +76,20 @@ class ShowPost(DataMixin, DetailView):
 
 
 def about(request: HttpRequest):
-    if request.method == 'POST':
-        #загрузка файлов медиа
-        form = UploadFileForm(request.POST, request.FILES)
-        if form.is_valid():
-            # handle_uploaded_file(form.cleaned_data['file'])
-            fp = UploadFiles(file=form.cleaned_data['file'])
-            # загрузка файла с использованием модели
-            fp.save()
-    else:
-        form = UploadFileForm()
-        
-    return render(request, 'women/about.html',
-                {'title': 'О сайте', 'form': form}
-                )
+    contact_list = Women.published.all()
+    #Paginator
+    paginator = Paginator(contact_list, 3)
+    
+    # получение номера страницы
+    page_number = request.GET.get('page')
+    # page_obj можно перебирать как итератор
+    page_obj = paginator.get_page(page_number)
+    
+    return render(
+        request,
+        'women/about.html', 
+        {'title': 'О сайте', 'page_obj': page_obj}
+    )
 
 
 class AddPage(DataMixin, CreateView):
@@ -149,6 +153,7 @@ class WomenCategory(DataMixin, ListView):
     context_object_name = 'posts'
     # генерируется 404 при пустом списке (когда указывается неверный слаг)
     allow_empty = False
+    
     
     def get_queryset(self):
         #Ключ cat_slug автоматически формируется по шаблону маршрута (файл women/urls.py)

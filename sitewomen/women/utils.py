@@ -11,6 +11,7 @@ menu = [
 
 # Класс mixin
 class DataMixin:
+    paginate_by = 5
     # Переоперделяется в WomenHome
     title_page = None
     cat_selected = None
