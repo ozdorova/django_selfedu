@@ -1,0 +1,13 @@
+<!DOCTYPE html>
+<!-- шаблонный тег tags из women_tags.py -->
+<!-- tags экземпляр класса TagPost -->
+    <p>Теги:</p>
+    <ul class="tags-list">
+        {% for t in tags %}
+        <!-- get_absolute_url метод экземпляра класса TagPost -->
+        <!-- t.get_absolute_url возращает ссылку, t.tag - название тега -->
+        <li><a href="{{t.get_absolute_url}}">{{t.tag}}</a></li>
+
+        {%endfor%}
+    </ul>
+

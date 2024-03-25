@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+
+{%extends 'base.html'%}
+
+{% block breadcrumbs %}
+<!-- Теги -->
+<!-- post.tags.all - ORM команда (SQL) -->
+{% with post.tags.all as tags %}
+
+{% if tags %}
+<ul class="tags-list">
+    <li>Теги:</li>
+    {% for t in tags %}
+    <!-- get_absolute_url метод экземпляра класса TagPost -->
+    <!-- t.get_absolute_url возращает ссылку, t.tag - название тега -->
+    <li><a href="{{t.get_absolute_url}}">{{t.tag}}</a></li>
+    {% endfor%}
+</ul>
+{% endif %}
+{% endwith %}
+{% endblock %}
+
+
+{%block content%}
+
+<h1>{{post.title}}</h1>
+
+{%if post.photo%}
+<p><img class="img-article-left" src="{{post.photo.url}}"></p>
+{%endif%}
+
+{{post.content|linebreaks}}
+{%endblock%}

@@ -1,0 +1,10 @@
+<!DOCTYPE html>
+<!-- cat - экземпляр Category -->
+{%for cat in cats %}
+    {% if cat.id == cat_selected %}
+        <li class="selected">{{cat.name}}</li>
+    {% else %}
+    <!-- get_absolute_url метод экземпляра класса Cat -->
+        <li><a href="{{cat.get_absolute_url}}">{{cat.name}}</a></li>
+    {% endif%}
+{% endfor%}
