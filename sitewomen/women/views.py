@@ -7,7 +7,7 @@ from django.urls import reverse, reverse_lazy
 from django.template.loader import render_to_string
 from django.template.defaultfilters import slugify
 from django.views import View
-from django.views.generic import DetailView, FormView, ListView, TemplateView
+from django.views.generic import CreateView, DeleteView, DetailView, FormView, ListView, TemplateView, UpdateView
 
 from .forms import AddPostForm, UploadFileForm
 from women.models import UploadFiles, Women, Category, TagPost
@@ -99,7 +99,6 @@ def show_post(request: HttpRequest, post_slug):
         'post': post,
         'cat_selected': 1,
     }
-    
     return render(request, 'women/post.html', data)
 
 
@@ -183,21 +182,55 @@ def about(request: HttpRequest):
 
 
 
-class AddPage(FormView):
+class AddPage(CreateView):
     form_class = AddPostForm
+    # # или 
+    # model = Women
+    # fields = '__all__'
+    
     template_name = 'women/addpage.html'
+    
     # атрибут который отвечает адрес переотправки послу успешного заполнения формы
     # reverse_lazy получает полный адрес машрута по имени в момент когда необходимо, а не в момент определения
+    # success_url = reverse_lazy('home')
+    # в  СreateView не нужен success_url если в форме или в модели определен метод get_absolute_url
+    
+    extra_context = {
+        'menu': menu,
+        'title': 'Добавление статьи',
+    }
+
+
+class UpdatePage(UpdateView):
+    # обновление поста
+    model = Women
+    fields = ['title', 'content', 'photo', 'is_published', 'cat']
+    template_name = 'women/addpage.html'
+    
     success_url = reverse_lazy('home')
+    
+    extra_context = {
+        'menu': menu,
+        'title': 'Добавление статьи',
+    }
+
+
+class DeletePage(DeleteView):
+    model = Women
+    template_name = 'women/delete.html'
+    
+    success_url = reverse_lazy('home')
+    
     extra_context = {
         'menu': menu,
         'title': 'Добавление статьи',
     }
     
-    def form_valid(self, form):
-        # вызывается только если форма была заполнена корректно
-        form.save()
-        return super().form_valid(form)
+    # Реализован в классе CreateView
+    # def form_valid(self, form):
+    #     # вызывается только если форма была заполнена корректно
+    #     form.save()
+    #     return super().form_valid(form)
 
 
 
