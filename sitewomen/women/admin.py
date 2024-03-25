@@ -2,7 +2,7 @@ from typing import Any
 from django.contrib import admin, messages
 from django.db.models import QuerySet
 from django.utils.safestring import mark_safe
-from .models import Women, Category
+from women.models import Women, Category
 # Register your models here.
 
 class MarriedFilter(admin.SimpleListFilter):

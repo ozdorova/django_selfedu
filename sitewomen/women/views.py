@@ -14,7 +14,7 @@ from django.views.generic import CreateView, DeleteView, DetailView, FormView, L
 from .utils import DataMixin
 
 from .forms import AddPostForm, UploadFileForm
-from women.models import UploadFiles, Women, Category, TagPost
+from .models import UploadFiles, Women, Category, TagPost
 import uuid
 
 
@@ -166,7 +166,7 @@ class WomenCategory(DataMixin, ListView):
         # # вместо
         # cat = context['posts'][0].cat
         # # используем
-        # cat = get_object_or_404(Category, slug=self.kwargs['cat_slug'])
+        # 
         cat = context['posts'][0].cat
         return self.get_mixin_context(
             context,
