@@ -25,6 +25,7 @@ from django.conf.urls.static import static
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('', include('women.urls')), # ссылается на файл women.urls.py
+    path('users/', include('users.urls', namespace='users')), # 'users:login', 'users.logout'
     path("__debug__/", include("debug_toolbar.urls")),
 ]   
 
