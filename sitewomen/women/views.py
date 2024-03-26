@@ -10,7 +10,8 @@ from django.template.loader import render_to_string
 from django.template.defaultfilters import slugify
 from django.views import View
 from django.views.generic import CreateView, DeleteView, DetailView, FormView, ListView, TemplateView, UpdateView
-
+from django.contrib.auth.decorators import login_required
+from django.contrib.auth.mixins import LoginRequiredMixin
 from .utils import DataMixin
 
 from .forms import AddPostForm, UploadFileForm
@@ -75,6 +76,8 @@ class ShowPost(DataMixin, DetailView):
         # return context
 
 
+# декоратор для отоборажение страницы только зарегристрированным пользователям
+@login_required(login_url='/admin/')
 def about(request: HttpRequest):
     contact_list = Women.published.all()
     #Paginator
@@ -92,7 +95,9 @@ def about(request: HttpRequest):
     )
 
 
-class AddPage(DataMixin, CreateView):
+class AddPage(LoginRequiredMixin, DataMixin, CreateView): # LoginRequiredMixin аналогичен @login_required
+    # login_url = '/admin/' # LoginRequiredMixin
+    
     form_class = AddPostForm
     # # или 
     # model = Women
@@ -100,6 +105,12 @@ class AddPage(DataMixin, CreateView):
     
     title_page = 'Добавление статьи' # DataMixin
     template_name = 'women/addpage.html'
+    
+    def form_valid(self, form):
+        w = form.save(commit=False) # commit=False сохраняет изменения но не заносит их в БД
+        w.author = self.request.user
+        return super().form_valid(form)
+        
     
     # атрибут который отвечает адрес переотправки послу успешного заполнения формы
     # reverse_lazy получает полный адрес машрута по имени в момент когда необходимо, а не в момент определения

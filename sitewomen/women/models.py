@@ -1,4 +1,5 @@
 from tabnanny import verbose
+from django.contrib.auth import get_user_model
 from django.core.validators import MaxLengthValidator, MinLengthValidator
 from django.db import models
 from django.urls import reverse
@@ -74,14 +75,16 @@ class Women(models.Model):
         verbose_name="Категория",
     ) 
     # In [3]: Category.objects.get(pk=1).posts.all()
+    
+    # теги постов Many_to_Many
     tags = models.ManyToManyField(
         'TagPost', 
         blank=True, 
         related_name='tags', 
         verbose_name="Теги",
     )
-    # теги постов Many_to_Many
     
+    # связь с таблицей husband One_to_One
     husband = models.OneToOneField(
         'Husband',
         on_delete=models.SET_NULL, 
@@ -90,7 +93,15 @@ class Women(models.Model):
         related_name='wuman', 
         verbose_name="Муж",
     )
-    # связь с таблицей husband One_to_One
+    
+    # поле автора
+    author = models.ForeignKey(
+        get_user_model(), 
+        on_delete=models.SET_NULL, 
+        related_name='posts',
+        null=True,
+        default=None,
+    )
     
     
     #экземпляр менеджера моделей
