@@ -2,9 +2,14 @@ from django import template
 import women.views as views
 from women.models import Category, TagPost
 from django.db.models import Count
-
+from women.utils import menu
 # создание пользовательского тега
 register = template.Library()
+
+
+@register.simple_tag
+def get_menu():
+    return menu
 
 
 @register.inclusion_tag('women/list_categories.html')
