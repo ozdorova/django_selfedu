@@ -10,8 +10,8 @@ from django.template.loader import render_to_string
 from django.template.defaultfilters import slugify
 from django.views import View
 from django.views.generic import CreateView, DeleteView, DetailView, FormView, ListView, TemplateView, UpdateView
-from django.contrib.auth.decorators import login_required
-from django.contrib.auth.mixins import LoginRequiredMixin
+from django.contrib.auth.decorators import login_required, permission_required
+from django.contrib.auth.mixins import LoginRequiredMixin, PermissionRequiredMixin
 from .utils import DataMixin
 
 from .forms import AddPostForm, UploadFileForm
@@ -94,8 +94,8 @@ def about(request: HttpRequest):
         {'title': 'О сайте', 'page_obj': page_obj}
     )
 
-
-class AddPage(LoginRequiredMixin, DataMixin, CreateView): # LoginRequiredMixin аналогичен @login_required
+#PermissionRequiredMixin добавление доступа к этой странице через админ панель
+class AddPage(PermissionRequiredMixin, LoginRequiredMixin, DataMixin, CreateView): # LoginRequiredMixin аналогичен @login_required
     # login_url = '/admin/' # LoginRequiredMixin
     
     form_class = AddPostForm
@@ -105,6 +105,11 @@ class AddPage(LoginRequiredMixin, DataMixin, CreateView): # LoginRequiredMixin �
     
     title_page = 'Добавление статьи' # DataMixin
     template_name = 'women/addpage.html'
+    
+    # PermissionRequiredMixin,
+    # разрещение на добавление статьи
+    # women - имя приложение, .add_ - для добавление статьи, womem - таблица
+    permission_required = 'women.add_women' # <приложение>.<действие>_<таблица>
     
     def form_valid(self, form):
         w = form.save(commit=False) # commit=False сохраняет изменения но не заносит их в БД
@@ -123,7 +128,7 @@ class AddPage(LoginRequiredMixin, DataMixin, CreateView): # LoginRequiredMixin �
     # }
 
 
-class UpdatePage(DataMixin, UpdateView):
+class UpdatePage(PermissionRequiredMixin, DataMixin, UpdateView):
     # обновление поста
     model = Women
     fields = ['title', 'content', 'photo', 'is_published', 'cat']
@@ -132,6 +137,7 @@ class UpdatePage(DataMixin, UpdateView):
     
     title_page = 'Редактирование статьи'
     
+    permission_required = 'women.change_women'
 
 
 class DeletePage(DataMixin, DeleteView):
@@ -150,7 +156,8 @@ class DeletePage(DataMixin, DeleteView):
     #     form.save()
     #     return super().form_valid(form)
 
-
+# тоже самое что и PermissionRequiredMixin, только для функция представления
+@permission_required(perm='women.view_women', raise_exception=True)
 def contact(request: HttpRequest):
     return HttpResponse('Обратная связь')
 

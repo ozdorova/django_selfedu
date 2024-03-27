@@ -1,0 +1,82 @@
+
+
+Добавление разрешений
+
+In [2]: from users.models import User
+
+In [3]: user = User.objects.get(pk=2)
+
+In [4]: user
+Out[4]: <User: user1>
+
+In [5]: user.groups
+Out[5]: <django.db.models.fields.related_descriptors.create_forward_many_to_many_manager.<locals>.ManyRelatedManager at 0x104a08550>
+
+In [6]: user.user_permissions
+Out[6]: <django.db.models.fields.related_descriptors.create_forward_many_to_many_manager.<locals>.ManyRelatedManager at 0x104795a90>
+
+In [7]: user.has_perm('women.add_women')
+Out[7]: True
+
+In [8]: user.has_perm('women.delete_category')
+Out[8]: False
+
+In [9]: user.user_permissions.add(1)
+
+In [10]: user.user_permissions.all()
+Out[10]: <QuerySet [<Permission: admin | запись в журнале | Can add log entry>]>
+
+In [11]: from django.contrib.auth.models import Permission
+
+In [12]: p = Permission.objects.get(codename='add_category')
+
+In [13]: p
+Out[13]: <Permission: women | Категория | Can add Категория>
+
+In [14]: user.user_permissions.add(p)
+
+In [15]: user.user_permissions.all()
+Out[15]: <QuerySet [<Permission: admin | запись в журнале | Can add log entry>, <Permission: women | Категория | Can add Категория>]>
+
+In [16]: from django.contrib.auth.models import Group
+
+In [17]: g = Group.objects.get(name='moderator')
+
+In [18]: g
+Out[18]: <Group: moderator>
+
+In [19]: user.groups.add(g)
+
+In [20]: user.groups.all()
+Out[20]: <QuerySet [<Group: moderator>]>
+
+In [21]: users.groups.remove(g)
+---------------------------------------------------------------------------
+NameError                                 Traceback (most recent call last)
+Cell In[21], line 1
+----> 1 users.groups.remove(g)
+
+NameError: name 'users' is not defined
+
+In [22]: user.groups.remove(g)
+
+In [23]: user.groups.all()
+Out[23]: <QuerySet []>
+
+In [24]: user.groups.clear()
+
+In [25]: 
+
+
+Добавление нового разрешения 
+
+In [26]: from django.contrib.auth.models import Permission
+
+In [27]: from django.contrib.contenttypes.models import ContentType
+
+In [28]: content_type = ContentType.objects.get_for_model(User)
+
+In [29]: permission = Permission.objects.create(codename='social_auth', name='Social Auth', content_type=content_type)
+
+
+

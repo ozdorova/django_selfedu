@@ -3,6 +3,13 @@
 {%extends 'base.html'%}
 
 {% block breadcrumbs %}
+<!-- django автоматически передает коллекцию perms - разрешения, которыми обладает текущий пользователь (permission) -->
+<!-- {{ perms }} -->
+
+{% if perms.women.change_women %}
+<p><a href="{% url 'edit_page' post.slug %}">Редактировать</a></p>
+{% endif %}
+    
 <!-- Теги -->
 <!-- post.tags.all - ORM команда (SQL) -->
 {% with post.tags.all as tags %}
