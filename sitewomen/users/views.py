@@ -5,6 +5,11 @@ from django.shortcuts import render
 from django.urls import reverse, reverse_lazy
 from django.views.generic import CreateView, UpdateView
 from numpy import extract
+
+from sitewomen.settings import DEFAULT_USER_IMAGE
+
+
+
 from .forms import LoginUserForm, ProfileUserForm, RegisterUserForm, UserPasswordChangeForm
 from django.contrib.auth.views import LoginView, PasswordChangeView
 from django.contrib.auth.forms import AuthenticationForm
@@ -25,7 +30,10 @@ class ProfileUser(LoginRequiredMixin, UpdateView):
     model = get_user_model()
     form_class = ProfileUserForm
     template_name = 'users/profile.html'
-    extract_context = {'title': 'Профиль пользователя'}
+    extra_context = {
+        'title': 'Профиль пользователя',
+        'default_image': DEFAULT_USER_IMAGE,
+    }
     
     def get_success_url(self) -> str:
         # перенаправление после изменения

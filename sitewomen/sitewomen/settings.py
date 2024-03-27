@@ -11,7 +11,7 @@ https://docs.djangoproject.com/en/4.2/ref/settings/
 """
 
 from pathlib import Path
-from django.conf.global_settings import AUTHENTICATION_BACKENDS, DEFAULT_FROM_EMAIL, EMAIL_HOST_USER, EMAIL_USE_SSL, EMAIL_USE_TLS, LOGIN_REDIRECT_URL, LOGIN_URL, LOGOUT_REDIRECT_URL, SERVER_EMAIL
+from django.conf.global_settings import AUTH_USER_MODEL, AUTHENTICATION_BACKENDS, DEFAULT_FROM_EMAIL, EMAIL_HOST_USER, EMAIL_USE_SSL, EMAIL_USE_TLS, LOGIN_REDIRECT_URL, LOGIN_URL, LOGOUT_REDIRECT_URL, SERVER_EMAIL
 import environ
 
 
@@ -170,7 +170,7 @@ STATICFILES_DIRS = [
 # else:
 #     STATIC_ROOT = BASE_DIR / 'static'
 
-MEDIA_URL = 'media/'
+MEDIA_URL = '/media/'
 MEDIA_ROOT = BASE_DIR / 'media'
 
 # Default primary key field type
@@ -190,6 +190,11 @@ AUTHENTICATION_BACKENDS = [
 ]
 
 
+DEFAULT_USER_IMAGE = MEDIA_URL + "users/default.png"
+
+
+# по умолчанию auth.User, следует менять когда переопределяется модель для User
+AUTH_USER_MODEL = 'users.User'
 
 # EMAIL_BACKEND = "django.core.mail.backends.console.EmailBackend" # для теста писем в консоли
 
@@ -221,3 +226,5 @@ EMAIL_USE_TLS = False
 DEFAULT_FROM_EMAIL = EMAIL_HOST_USER
 SERVER_EMAIL = EMAIL_HOST_USER
 EMAIL_ADMIN = EMAIL_HOST_USER
+
+

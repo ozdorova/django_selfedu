@@ -1,4 +1,5 @@
 from dataclasses import fields
+import datetime
 import email
 from django import forms
 from django.contrib.auth import get_user_model
@@ -78,11 +79,17 @@ class ProfileUserForm(forms.ModelForm):
         label='E-mail',
         widget=forms.TextInput(attrs={'class': 'form-input'}),
     )
+    this_year = datetime.date.today().year
+    date_birth = forms.DateField(
+        widget=forms.SelectDateWidget(
+            years=tuple(range(this_year-100, this_year-5))
+        ),
+    )
     
     class Meta:
         model = get_user_model()
         fields = [
-            'username', 'email', 'first_name', 'last_name',
+            'photo', 'username', 'email', 'date_birth', 'first_name', 'last_name',
         ]
         labels = {
             'first_name': 'Имя',
