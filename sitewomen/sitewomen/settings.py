@@ -11,7 +11,7 @@ https://docs.djangoproject.com/en/4.2/ref/settings/
 """
 
 from pathlib import Path
-from django.conf.global_settings import LOGIN_REDIRECT_URL, LOGIN_URL, LOGOUT_REDIRECT_URL
+from django.conf.global_settings import AUTHENTICATION_BACKENDS, LOGIN_REDIRECT_URL, LOGIN_URL, LOGOUT_REDIRECT_URL
 import environ
 
 
@@ -180,3 +180,9 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 LOGIN_REDIRECT_URL = 'home' # перенаправление после успешного входа в аккаунт
 LOGOUT_REDIRECT_URL = 'home' # --
 LOGIN_URL = 'users:login' # перенаправление после попытки зайти на закрытую страницу
+
+# бекенды для авторизации пользователя
+AUTHENTICATION_BACKENDS = [
+    'django.contrib.auth.backends.ModelBackend',
+    'users.authentication.EmailAuthBackend',
+]
