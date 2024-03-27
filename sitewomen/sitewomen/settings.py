@@ -11,7 +11,7 @@ https://docs.djangoproject.com/en/4.2/ref/settings/
 """
 
 from pathlib import Path
-from django.conf.global_settings import AUTHENTICATION_BACKENDS, LOGIN_REDIRECT_URL, LOGIN_URL, LOGOUT_REDIRECT_URL
+from django.conf.global_settings import AUTHENTICATION_BACKENDS, DEFAULT_FROM_EMAIL, EMAIL_HOST_USER, EMAIL_USE_SSL, EMAIL_USE_TLS, LOGIN_REDIRECT_URL, LOGIN_URL, LOGOUT_REDIRECT_URL, SERVER_EMAIL
 import environ
 
 
@@ -190,5 +190,34 @@ AUTHENTICATION_BACKENDS = [
 ]
 
 
-if DEBUG:
-    EMAIL_BACKEND = "django.core.mail.backends.console.EmailBackend"
+
+# EMAIL_BACKEND = "django.core.mail.backends.console.EmailBackend" # для теста писем в консоли
+
+# if DEBUG:
+#     EMAIL_BACKEND = "django.core.mail.backends.console.EmailBackend"
+
+###
+# EMAIL_BACKEND = "django.core.mail.backends.smtp.EmailBackend" 
+EMAIL_BACKEND = 'sitewomen.backend.email.EmailBackend' # custom email Backend
+
+##### yandex
+# EMAIL_HOST_PASSWORD = "hnudeagzikenjpym" # пароль smtp yandex dj4ngo.t 
+
+# EMAIL_HOST = "smtp.yandex.ru"
+# EMAIL_PORT = 465 # 587
+# EMAIL_HOST_USER = "dj4ngo.t@yandex.ru"
+# EMAIL_USE_SSL = True
+# EMAIL_USE_TLS = False
+
+##### mail.ru
+EMAIL_HOST_PASSWORD = "7aaf7KQBJmdymsnxLf9z"
+EMAIL_HOST = "smtp.mail.ru"
+EMAIL_PORT = 465
+EMAIL_HOST_USER = "django.test@internet.ru"
+EMAIL_USE_SSL = True
+EMAIL_USE_TLS = False
+
+
+DEFAULT_FROM_EMAIL = EMAIL_HOST_USER
+SERVER_EMAIL = EMAIL_HOST_USER
+EMAIL_ADMIN = EMAIL_HOST_USER
