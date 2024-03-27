@@ -182,6 +182,7 @@ LOGOUT_REDIRECT_URL = 'home' # --
 LOGIN_URL = 'users:login' # перенаправление после попытки зайти на закрытую страницу
 
 # бекенды для авторизации пользователя
+# можно написать дополнительные способы авторизация пользователя, наследовав BaseBackend
 AUTHENTICATION_BACKENDS = [
     'django.contrib.auth.backends.ModelBackend',
     'users.authentication.EmailAuthBackend',

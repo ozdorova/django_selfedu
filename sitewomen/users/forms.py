@@ -2,7 +2,7 @@ from dataclasses import fields
 import email
 from django import forms
 from django.contrib.auth import get_user_model
-from django.contrib.auth.forms import AuthenticationForm, UserCreationForm
+from django.contrib.auth.forms import AuthenticationForm, UserCreationForm, PasswordChangeForm
 from django.forms import widgets
 
 class LoginUserForm(AuthenticationForm):
@@ -92,6 +92,23 @@ class ProfileUserForm(forms.ModelForm):
             'first_name': forms.TextInput(attrs={'class': 'form-input'}),
             'last_name': forms.TextInput(attrs={'class': 'form-input'}),
         }
+    
+
+class UserPasswordChangeForm(PasswordChangeForm):
+    # форма для смены пароля
+    # все три поля обязательны
+    old_password = forms.CharField(
+        label='Старый пароль',
+        widget=forms.PasswordInput(attrs={'class': 'form-input'}),
+    )
+    new_password1 = forms.CharField(
+        label='Новый пароль',
+        widget=forms.PasswordInput(attrs={'class': 'form-input'}),
+    )
+    new_password2= forms.CharField(
+        label='Подтверждение пароля',
+        widget=forms.PasswordInput(attrs={'class': 'form-input'}),
+    )
     
     
 # class RegisterUserForm(forms.ModelForm)

@@ -5,8 +5,8 @@ from django.shortcuts import render
 from django.urls import reverse, reverse_lazy
 from django.views.generic import CreateView, UpdateView
 from numpy import extract
-from .forms import LoginUserForm, ProfileUserForm, RegisterUserForm
-from django.contrib.auth.views import LoginView
+from .forms import LoginUserForm, ProfileUserForm, RegisterUserForm, UserPasswordChangeForm
+from django.contrib.auth.views import LoginView, PasswordChangeView
 from django.contrib.auth.forms import AuthenticationForm
 from django.contrib.auth.mixins import LoginRequiredMixin
 # Create your views here.
@@ -42,6 +42,14 @@ class LoginUser(LoginView):
     extra_context = {
         'title': 'Авторизация'
     }
+
+
+class UserPasswordChange(PasswordChangeView):
+    # класс представление для смены пароля
+    form_class = UserPasswordChangeForm
+    # перенаправляет на password_change_done.html
+    success_url = reverse_lazy('users:password_change_done')
+    template_name = 'users/password_change_form.html'
 
     # def get_success_url(self) -> str:
     #     return reverse_lazy('home')
