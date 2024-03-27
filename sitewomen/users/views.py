@@ -35,6 +35,7 @@ class ProfileUser(LoginRequiredMixin, UpdateView):
         # получаем обьект авторизованного пользователя, чтобы нельзя было менять данные других пользователей
         return self.request.user
 
+
 class LoginUser(LoginView):
     # класс представления для входа
     form_class = LoginUserForm # AuthenticationForm
@@ -54,6 +55,9 @@ class UserPasswordChange(PasswordChangeView):
     # def get_success_url(self) -> str:
     #     return reverse_lazy('home')
     # либо LOGIN_REDIRECT_URL = 'home' в settings.py
+
+
+
 
 # # функция входа в систему
 # def login_user(request):
