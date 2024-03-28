@@ -27,6 +27,7 @@ urlpatterns = [
     path('', include('women.urls')), # ссылается на файл women.urls.py
     path('users/', include('users.urls', namespace='users')), # 'users:login', 'users.logout', namespace - пространство имен
     path("__debug__/", include("debug_toolbar.urls")),
+    path('social-auth/', include('social_django.urls', namespace='social')),
 ]   
 
 if settings.DEBUG:

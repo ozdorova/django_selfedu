@@ -74,6 +74,7 @@ INSTALLED_APPS = [
     'women.apps.WomenConfig',
     "debug_toolbar",
     "users",
+    'social_django',
 ]
 
 MIDDLEWARE = [
@@ -185,6 +186,7 @@ LOGIN_URL = 'users:login' # перенаправление после попыт
 # бекенды для авторизации пользователя
 # можно написать дополнительные способы авторизация пользователя, наследовав BaseBackend
 AUTHENTICATION_BACKENDS = [
+    'social_core.backends.github.GithubOAuth2',
     'django.contrib.auth.backends.ModelBackend',
     'users.authentication.EmailAuthBackend',
 ]
@@ -192,6 +194,9 @@ AUTHENTICATION_BACKENDS = [
 
 DEFAULT_USER_IMAGE = MEDIA_URL + "users/default.png"
 
+# если PostgreSQL
+# SOCIAL_AUTH_JSONFIELD_ENABLED = True
+# migrate
 
 # по умолчанию auth.User, следует менять когда переопределяется модель для User
 AUTH_USER_MODEL = 'users.User'
@@ -228,3 +233,21 @@ SERVER_EMAIL = EMAIL_HOST_USER
 EMAIL_ADMIN = EMAIL_HOST_USER
 
 
+SOCIAL_AUTH_GITHUB_KEY = '19b318141366e9f6c6cd'
+SOCIAL_AUTH_GITHUB_SECRET = '6f91cc9bc97a541a9d609fa372a5fc5894a05df2'
+
+SOCIAL_AUTH_PIPELINE = (
+    'social_core.pipeline.social_auth.social_details',
+    'social_core.pipeline.social_auth.social_uid',
+    'social_core.pipeline.social_auth.auth_allowed',
+    'social_core.pipeline.social_auth.social_user',
+    'social_core.pipeline.user.get_username',
+    'social_core.pipeline.social_auth.associate_by_email',  # <--- enable this one
+    'social_core.pipeline.user.create_user',
+    # занесение пользователя в группу social при OAuth2
+    'users.pipeline.new_users_handler',
+    
+    'social_core.pipeline.social_auth.associate_user',
+    'social_core.pipeline.social_auth.load_extra_data',
+    'social_core.pipeline.user.user_details',
+)

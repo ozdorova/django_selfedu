@@ -7,9 +7,9 @@
     <form method="post" enctype="multipart/form-data">
         {% csrf_token %}
         {% if user.photo %}
-            <p><img src="{{ user.photo.url }}">
+            <p><img src="{{ user.photo.url }}" width="20%" height="20%">
         {% else %}
-            <p><img src="{{ default_image }}">
+            <p><img src="{{ default_image }}" width="20%" height="20%">
         {% endif %}
         
         <div class="form-error">{{ form.non_field_errors}} </div>
@@ -22,7 +22,11 @@
         <p><button type="submit">Сохранить</button></p>
     </form>
 
+{% if not perms.users.social_auth %}
 <hr>
 <p><a href="{% url 'users:password_change' %}"> Сменить пароль</a></p>
+{% endif %}
+
+
 {% endblock content %}
     
