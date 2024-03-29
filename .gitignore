@@ -10,7 +10,7 @@ main.py
 .vscode
 .pylintrc
 
-venv
+venv/
 djvenv
 djvenv_win
 uploads/
