@@ -26,7 +26,12 @@
 </form>
 
 <hr>
-<p><a href="{% url 'social:begin' 'github' %}"><img src="/media/social-auth/github.png" alt="github" width="5%" height="5%"></a></p>
+<p>
+<!-- вход черех соц сети -->
+<a href="{% url 'social:begin' 'github' %}"><img src="/media/social-auth/github.png" alt="github" width="5%" height="5%"></a>
+<a href="{% url 'social:begin' 'vk-oauth2' %}"><img src="/media/social-auth/vk.png" alt="vk" width="5%" height="5%"></a>
+
+</p>
 
 {% endblock content %}
     

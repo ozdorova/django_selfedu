@@ -56,7 +56,7 @@ SECRET_KEY = 'django-insecure-13j$s%lr!bp5z&vp+ef^m+bqfz!^=eh=z=s!b1af)!2#k0jh4#
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['127.0.0.1', 'sitewomen.ru']
+ALLOWED_HOSTS = ['127.0.0.1', 'sitewomen.ru', 'localhost']
 
 INTERNAL_IPS = ["127.0.0.1",]
 
@@ -187,6 +187,7 @@ LOGIN_URL = 'users:login' # перенаправление после попыт
 # можно написать дополнительные способы авторизация пользователя, наследовав BaseBackend
 AUTHENTICATION_BACKENDS = [
     'social_core.backends.github.GithubOAuth2',
+    'social_core.backends.vk.VKOAuth2',
     'django.contrib.auth.backends.ModelBackend',
     'users.authentication.EmailAuthBackend',
 ]
@@ -232,9 +233,14 @@ DEFAULT_FROM_EMAIL = EMAIL_HOST_USER
 SERVER_EMAIL = EMAIL_HOST_USER
 EMAIL_ADMIN = EMAIL_HOST_USER
 
-
+#github auth
 SOCIAL_AUTH_GITHUB_KEY = '19b318141366e9f6c6cd'
 SOCIAL_AUTH_GITHUB_SECRET = '6f91cc9bc97a541a9d609fa372a5fc5894a05df2'
+#vk auth
+SOCIAL_AUTH_VK_OAUTH2_KEY = '51891582'
+SOCIAL_AUTH_VK_OAUTH2_SECRET = 'zBklFOYvWFVZah16K2lO'
+# дополнительные сведения которые берутся при аторизации vk
+SOCIAL_AUTH_VK_OAUTH2_SCOPE = ['email']
 
 SOCIAL_AUTH_PIPELINE = (
     'social_core.pipeline.social_auth.social_details',
