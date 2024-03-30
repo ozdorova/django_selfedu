@@ -6,6 +6,12 @@ from django.urls import reverse
 from django.utils.text import slugify
 from unidecode import unidecode
 
+# fixture 
+# комманда для сохранения модели в json 
+# python -Xutf8 manage.py dumpdata --indent=2 women.Women -o women/fixtures/women_women.json
+
+# комманда сохранения всей бд в json 
+# python -Xutf8 manage.py dumpdata --indent=2 --exclude contenttypes --exclude social_django -o db.json
 
 class PublishedManager(models.Manager):
     

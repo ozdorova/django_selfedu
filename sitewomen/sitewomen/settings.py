@@ -117,6 +117,13 @@ WSGI_APPLICATION = 'sitewomen.wsgi.application'
 # https://docs.djangoproject.com/en/4.2/ref/settings/#databases
 
 
+# комманда сохранения всей бд в json без исключений
+# python -Xutf8 manage.py dumpdata --indent=2 -o db.json
+
+#команда загрузки данных в бд
+# python manage.py loaddata db.json
+
+
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.sqlite3',
