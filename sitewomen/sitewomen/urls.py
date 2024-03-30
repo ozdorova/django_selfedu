@@ -28,7 +28,9 @@ urlpatterns = [
     path('users/', include('users.urls', namespace='users')), # 'users:login', 'users.logout', namespace - пространство имен
     path("__debug__/", include("debug_toolbar.urls")),
     path('social-auth/', include('social_django.urls', namespace='social')),
+    path('captcha/', include('captcha.urls')),
 ]   
+
 
 if settings.DEBUG:
     urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

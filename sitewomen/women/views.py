@@ -14,7 +14,7 @@ from django.contrib.auth.decorators import login_required, permission_required
 from django.contrib.auth.mixins import LoginRequiredMixin, PermissionRequiredMixin
 from .utils import DataMixin
 
-from .forms import AddPostForm, UploadFileForm
+from .forms import AddPostForm, UploadFileForm, ContactForm
 from .models import UploadFiles, Women, Category, TagPost
 import uuid
 
@@ -157,9 +157,19 @@ class DeletePage(DataMixin, DeleteView):
     #     return super().form_valid(form)
 
 # тоже самое что и PermissionRequiredMixin, только для функция представления
-@permission_required(perm='women.view_women', raise_exception=True)
-def contact(request: HttpRequest):
-    return HttpResponse('Обратная связь')
+# @permission_required(perm='women.view_women', raise_exception=True)
+# def contact(request: HttpRequest):
+#     return HttpResponse('Обратная связь')
+
+class ContactFormView(LoginRequiredMixin, DataMixin, FormView):
+    form_class=ContactForm
+    template_name = 'women/contact.html'
+    success_url = reverse_lazy('home')
+    title_page = 'Обратная связь'
+    
+    def form_valid(self, form):
+        print(form.cleaned_data)
+        return super().form_valid(form)
 
 
 def login(request: HttpRequest):
