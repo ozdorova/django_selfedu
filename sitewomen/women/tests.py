@@ -1,5 +1,6 @@
 from http import HTTPStatus
 from urllib import response
+from django.core.cache import cache
 from django.db.models import QuerySet
 from django.http import HttpResponse
 from django.test import TestCase
@@ -27,7 +28,7 @@ class GetPagesTestCase(TestCase):
     
     def setUp(self):
         #инициализация перед тестом
-        pass
+        cache.clear()
     
     def test_mainpage(self):
         # формируем машрут на главную страницу через имя маршрута из urls.py
