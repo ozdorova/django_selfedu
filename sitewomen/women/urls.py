@@ -2,6 +2,11 @@ from django.urls import path, re_path, register_converter
 from . import views
 from . import converters
 
+# кеширование
+from django.views.decorators.cache import cache_page
+# cache_page - декоратор
+# пример - path('', cache_page(30)(views.WomenHome.as_view()), name='home')
+
 register_converter(converters.FourDigitYearConverter, 'year4')
 
 urlpatterns = [

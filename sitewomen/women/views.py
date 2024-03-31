@@ -18,6 +18,8 @@ from .forms import AddPostForm, UploadFileForm, ContactForm
 from .models import UploadFiles, Women, Category, TagPost
 import uuid
 
+# кеширование
+from django.core.cache import cache
 
 # функции представления
 
@@ -36,7 +38,16 @@ class WomenHome(DataMixin, ListView):
     # paginate_by = 3 # автоматически в шаблон передается page_obj и paginator
     
     def get_queryset(self):
-        return Women.published.all().select_related('cat')
+        # получение данных из кеша, если они есть
+        w_lst = cache.get('women_posts')
+        if not w_lst:
+            # если данных в кеше нет, то получаем из БД список опубликованных статей
+            w_lst = Women.published.all().select_related('cat')
+            # и заносим в кеш по ключу 'women_posts', ключ может быть любым
+            cache.set('women_posts', w_lst, 60)
+        return w_lst
+    
+    
     # extra_context = {
     #     'title': 'Главная страница',
     #     'menu': menu,
