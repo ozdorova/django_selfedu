@@ -76,7 +76,12 @@ INSTALLED_APPS = [
     "users",
     'social_django',
     'captcha',
-]
+    # карта сайта
+    'django.contrib.sites',
+    'django.contrib.sitemaps',
+    ]
+
+
 
 MIDDLEWARE = [
     "debug_toolbar.middleware.DebugToolbarMiddleware",
@@ -164,11 +169,12 @@ DATABASES = {
 # brew services stop redis
 CACHES = {
     "default": {
-        # "BACKEND": "django.core.cache.backends.dummy.DummyCache", # заглушка кеша
-        "BACKEND": "django.core.cache.backends.redis.RedisCache",
-        "LOCATION": "redis://127.0.0.1:6379",
+        "BACKEND": "django.core.cache.backends.dummy.DummyCache", # заглушка кеша
+        # "BACKEND": "django.core.cache.backends.redis.RedisCache", # активация кеша 
+        # "LOCATION": "redis://127.0.0.1:6379",
     }
 }
+
 
 
 
@@ -304,3 +310,6 @@ SOCIAL_AUTH_PIPELINE = (
     'social_core.pipeline.social_auth.load_extra_data',
     'social_core.pipeline.user.user_details',
 )
+
+
+SITE_ID = 1

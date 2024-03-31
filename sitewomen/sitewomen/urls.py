@@ -17,10 +17,19 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path, include
 from sitewomen import settings
+from women.sitemaps import CategorySitemap, PostSitemap
 from women.views import page_not_found
 from django.conf.urls.static import static
 
+from django.contrib.sitemaps.views import sitemap
 
+from django.views.decorators.cache import cache_page
+
+# можно передавать любой ключ
+sitemaps = {
+    'posts': PostSitemap,
+    'cats': CategorySitemap,
+}
 
 urlpatterns = [
     path('admin/', admin.site.urls),
@@ -29,6 +38,7 @@ urlpatterns = [
     path("__debug__/", include("debug_toolbar.urls")),
     path('social-auth/', include('social_django.urls', namespace='social')),
     path('captcha/', include('captcha.urls')),
+    path('sitemap.xml', cache_page(860000)(sitemap), {'sitemaps': sitemaps}, name='django.contrib.sitemaps.views.sitemap'),
 ]   
 
 
