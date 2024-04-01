@@ -1,6 +1,8 @@
 __pycache__/
 helpers/
 
+.gitignore
+
 manage.py
 
 main.py
@@ -14,6 +16,7 @@ venv/
 djvenv
 djvenv_win
 uploads/
+djvenv_lin/*
 
 
 django_help
@@ -25,3 +28,4 @@ sitewomen/media/uploads_model/catwork_WM7Vcxe.gif
 sitewomen/media/uploads_model/catwork.gif
 helpers/views_with_defs.py
 helpers/views_with_defs.py
+.gitignore
